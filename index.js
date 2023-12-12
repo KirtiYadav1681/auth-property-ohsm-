@@ -1,4 +1,5 @@
 const express = require('express');
+const env = require('dotenv').config();
 const passport = require('passport');
 const session = require('express-session');
 
@@ -11,7 +12,7 @@ app.use(express.urlencoded());
 
 // using express-session for google authentication
 app.use(session({
-    secret: 'mysecretkey',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true
 }));
@@ -25,9 +26,9 @@ const db = require('./config/mongoose');
 app.use('/',router);
 
 // listening the server
-app.listen(3000, function(err){
+app.listen(process.env.PORT, function(err){
     if(err){
-        console.log('Error in running express server on port 3000.');
+        console.log(`Error in running express server on port ${process.env.PORT}.`);
     }
-    console.log('Express server is running on port 3000.');
+    console.log(`Express server is running on port ${process.env.PORT}.`);
 });

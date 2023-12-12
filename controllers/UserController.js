@@ -52,7 +52,7 @@ module.exports.login = async (req,res) => {
             if(!passwordMatched) {return res.status(400).send({message:"Invalid login credentials."})}
             else{
                 // on password matching adding the jwt token 
-                const token = jwt.sign({userId:userAlreadyExists._id},'thisismysecretkey',{expiresIn: '2d'});
+                const token = jwt.sign({userId:userAlreadyExists._id},process.env.JWT_SECRET,{expiresIn: '2d'});
                 return res.status(200).send({message:"Logged in successfully.", token});
             }
         }
@@ -132,7 +132,7 @@ module.exports.resetPassword = async (req,res) => {
 module.exports.callbackSuccess = (req, res) => {
     try {
         // Generating a new token
-        const token = jwt.sign({ userId: req.user._id }, 'thisismysecretkey', { expiresIn: '2d' });
+        const token = jwt.sign({ userId: req.user._id }, process.env.JWT_SECRET, { expiresIn: '2d' });
         // Sending the token and success message to the client
         return res.status(200).send({
             message: "Successfully signed in with google.",

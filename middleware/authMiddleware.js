@@ -8,7 +8,7 @@ module.exports.authenticateUser = async (req, res, next) => {
     // Accessing the token from header
     const token = req.header('Authorization').replace('Bearer ', '');
     // Verifying the token
-    const decoded = jwt.verify(token, 'thisismysecretkey'); 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); 
     // Finding the user based on the decoded user ID
     const user = await User.findById(decoded.userId);
     // if user is not found, then throw an error
